@@ -1,6 +1,19 @@
 // name the collection
 Posts = new Meteor.Collection('posts');
 
+// set permissions on updating/deleting posts
+Posts.allow({
+	update: ownsDocument,
+	remove: ownsDocument
+});
+
+// only allow editing of url and title fields
+Posts.deny({
+	update: function(userId, post, fieldNames) {
+		return (_.without(fieldNames, 'url', 'title').length > 0);
+	}
+});
+
 Meteor.methods({
 	post: function(postAttributes) {
 		var user = Meteor.user(), postWithSameLink = Posts.findOne({url: postAttributes.url});
@@ -34,14 +47,3 @@ Meteor.methods({
 		return postId;
 	}
 });
-
-
-// with insecure pkg removed, must specify when insert is allowed
-// no longer needed because the process now uses a meteor method
-// which are ran server-side and don't need to authenticate prior to usage
-// Posts.allow({
-// 	insert: function(userId, doc) {
-// 		// only allow posting if user is logged in
-// 		return !! userId;
-// 	}
-// });
