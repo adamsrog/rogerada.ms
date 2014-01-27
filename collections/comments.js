@@ -25,6 +25,11 @@ Meteor.methods({
 			$inc: {commentsCount: 1}
 		});
 
-		return Comments.insert(comment);
+		// create the comment, save the id
+		comment._id = Comments.insert(comment);
+
+		createCommentNotification(comment);
+
+		return comment._id;
 	}
 });
