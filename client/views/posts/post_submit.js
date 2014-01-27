@@ -12,13 +12,15 @@ Template.postSubmit.events({
 
 		// create the post
 		Meteor.call('post', post, function(error, id) {
-			if (error)
-				return alert(error.reason);
-
-			Router.go('postPage', {_id: id});
+			if (error) {
+				throwError(error.reason);
+				// goto the page if the URL is a duplicate
+				if (error.error === 302)
+					Router.go('postPage', {_id: error.details});
+			} else {
+				// goto the new post's page
+				Router.go('postPage', {_id: id});
+			}
 		});
-
-		// goto the newly created post's page
-		Router.go('postPage', post);
 	}
-})
+});
