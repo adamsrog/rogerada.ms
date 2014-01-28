@@ -1,15 +1,15 @@
 <template name="postItem">
 	<div class="post">
-		<a href="#" class="upvote btn">⬆</a>
+		<div class="col">
+			<button class="upvote btn {{upvotedClass}}">⬆<br/><span class="badge badge-inverse">{{votes}}</span></button>
+		</div>
 		<div class="post-content">
 			<h3><a href="{{url}}">{{title}}</a><span>{{domain}}</span></h3>
 			<p>
-				{{votes}} Votes
-				Submitted by {{author}}
-				<a href="{{pathFor 'postPage'}}">{{commentsCount}} comments</a>
+				<a href="#">Submitted by {{author}}</a></li>
 			</p>
 		</div>
-		<a href="{{pathFor 'postPage'}}" class="discuss btn">Discuss</a>
+		<a href="{{pathFor 'postPage'}}" class="discuss btn"><span class="badge badge-inverse">{{commentsCount}}</span> Discuss</a>
 		{{#if ownPost}}
 			<a href="{{pathFor 'postEdit'}}" class="discuss btn">Edit Post</a>
 		{{/if}}

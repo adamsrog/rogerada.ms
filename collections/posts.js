@@ -68,7 +68,7 @@ Meteor.methods({
 
 		// add user to upvote list and increment votes
 		Posts.update(post._id, {
-			$addToSet: {upvoters: user._id}
+			$addToSet: {upvoters: user._id},
 			$inc: {votes: 1}
 		});
 	}
